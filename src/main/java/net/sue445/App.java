@@ -1,4 +1,4 @@
-package net.sye445;
+package net.sue445;
 
 /**
  * Hello world!
