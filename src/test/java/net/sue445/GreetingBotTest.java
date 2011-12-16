@@ -11,9 +11,9 @@ public class GreetingBotTest{
 
 
 	@Test
-	public void okaeri() {
+	public void okaeri() throws Exception {
 		String actual = greetingBot.okaeri();
-		assertThat(actual, is("おかえり RT @sue445 借り暮らしのただいまってぃ"));
+		assertThat(actual, is("おかえり RT @sue445: 借り暮らしのただいまってぃ"));
 	}
 
 }
