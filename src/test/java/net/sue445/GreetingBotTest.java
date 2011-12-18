@@ -22,13 +22,54 @@ import twitter4j.User;
 @RunWith(Enclosed.class)
 public class GreetingBotTest{
 
-
 	public static class WhenNotFound{
 		private GreetingBot greetingBot = new GreetingBot();
+		private ResponseList<Status> mockTimelineList;
+		private Twitter mockTwitter;
 
 		@Before
-		public void setUp(){
-			greetingBot.setTwitter(GreetingBot.createTwitter());
+		public void setUp() throws Exception{
+			mockTimelineList = setUpMockEmptyTimelineList();
+			mockTwitter = setUpMockTwitter(mockTimelineList);
+			greetingBot.setTwitter(mockTwitter);
+
+			replay(mockTwitter, mockTimelineList);
+		}
+
+		@After
+		public void tearDown(){
+			verify(mockTwitter, mockTimelineList);
+		}
+
+		private ResponseList<Status> setUpMockEmptyTimelineList() {
+			@SuppressWarnings("unchecked")
+			ResponseList<Status> mockTimelineList = createMock(ResponseList.class);
+
+			Iterator<Status> it = new Iterator<Status>() {
+				@Override
+				public void remove() {
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Status next() {
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public boolean hasNext() {
+					return false;
+				}
+			};
+			expect(mockTimelineList.iterator()).andReturn(it);
+			return mockTimelineList;
+		}
+
+		private Twitter setUpMockTwitter(ResponseList<Status> mockTimelineList)
+				throws TwitterException {
+			Twitter mockTwitter = createMock(Twitter.class);
+			expect(mockTwitter.getHomeTimeline()).andReturn(mockTimelineList);
+			return mockTwitter;
 		}
 
 		@Test
@@ -49,7 +90,7 @@ public class GreetingBotTest{
 		@Before
 		public void setUp() throws Exception{
 			mockUser = setUpMockUser();
-			mockStatus = setUpStatusMock(mockUser);
+			mockStatus = setUpMockStatus(mockUser);
 			mockTimelineList = setUpMockTimelineList(mockStatus);
 			mockTwitter = setUpMockTwitter(mockTimelineList);
 
@@ -69,7 +110,7 @@ public class GreetingBotTest{
 			return mockUser;
 		}
 
-		private Status setUpStatusMock(User mockUser) {
+		private Status setUpMockStatus(User mockUser) {
 			Status mockStatus = createMock(Status.class);
 			expect(mockStatus.getText()).andReturn("借り暮らしのただいまってぃ");
 			expect(mockStatus.getUser()).andReturn(mockUser);
