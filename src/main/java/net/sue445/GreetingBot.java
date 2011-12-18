@@ -24,10 +24,12 @@ public class GreetingBot {
 		List<Status> timelineList = twitter.getHomeTimeline(paging);
 
 		for(Status status : timelineList){
-			String tweet = status.getText();
-			if(tweet.contains("ただいま")){
+			String text = status.getText();
+			if(text.contains("ただいま")){
 				String screenName = status.getUser().getScreenName();
-				return "おかえり RT @" + screenName + ": " + tweet;
+				String tweet = "おかえり RT @" + screenName + ": " + text;
+				twitter.updateStatus(tweet);
+				return tweet;
 			}
 		}
 		return "";
