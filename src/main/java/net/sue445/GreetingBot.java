@@ -2,7 +2,6 @@ package net.sue445;
 
 import java.util.List;
 
-import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -20,8 +19,7 @@ public class GreetingBot {
 	 * @throws TwitterException
 	 */
 	public String okaeri() throws TwitterException{
-		Paging paging = new Paging(1, 100);
-		List<Status> timelineList = twitter.getHomeTimeline(paging);
+		List<Status> timelineList = twitter.getHomeTimeline();
 
 		for(Status status : timelineList){
 			String text = status.getText();
