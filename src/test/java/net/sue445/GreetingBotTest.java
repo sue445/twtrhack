@@ -1,28 +1,48 @@
 package net.sue445;
 
+import static org.easymock.EasyMock.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 
+import twitter4j.Twitter;
+
+@RunWith(Enclosed.class)
 public class GreetingBotTest{
 
-	private GreetingBot greetingBot = new GreetingBot();
 
+	public static class WhenNotFound{
+		private GreetingBot greetingBot = new GreetingBot();
 
-	@Test
-	public void okaeriNotFound() throws Exception {
-		greetingBot.setTwitter(GreetingBot.createTwitter());
-		String actual = greetingBot.okaeri();
-		assertThat(actual, is(""));
+		@Before
+		public void setUp(){
+			greetingBot.setTwitter(GreetingBot.createTwitter());
+		}
+
+		@Test
+		public void okaeri() throws Exception {
+			String actual = greetingBot.okaeri();
+			assertThat(actual, is(""));
+		}
 	}
 
-	@Ignore
-	@Test
-	public void okaeriFound() throws Exception {
-		String actual = greetingBot.okaeri();
-		assertThat(actual, is("おかえり RT @sue445: 借り暮らしのただいまってぃ"));
-	}
+	public static class WhenFound{
+		private GreetingBot greetingBot = new GreetingBot();
 
+		@Before
+		public void setUp(){
+			Twitter twitter = createMock(Twitter.class);
+			greetingBot.setTwitter(twitter);
+		}
+
+		@Test
+		public void okaeriNotFound() throws Exception {
+			String actual = greetingBot.okaeri();
+			assertThat(actual, is("おかえり RT @sue445: 借り暮らしのただいまってぃ"));
+		}
+	}
 }
