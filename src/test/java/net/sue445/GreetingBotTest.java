@@ -40,7 +40,7 @@ public class GreetingBotTest{
 		}
 
 		@Test
-		public void okaeriNotFound() throws Exception {
+		public void okaeri() throws Exception {
 			String actual = greetingBot.okaeri();
 			assertThat(actual, is("おかえり RT @sue445: 借り暮らしのただいまってぃ"));
 		}
