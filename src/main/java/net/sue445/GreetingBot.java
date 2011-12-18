@@ -11,6 +11,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class GreetingBot {
 
+	private Twitter twitter;
 
 
 	/**
@@ -19,7 +20,6 @@ public class GreetingBot {
 	 * @throws TwitterException
 	 */
 	public String okaeri() throws TwitterException{
-		Twitter twitter = createTwitter();
 		Paging paging = new Paging(1, 100);
 		List<Status> timelineList = twitter.getHomeTimeline(paging);
 
@@ -35,7 +35,11 @@ public class GreetingBot {
 		return "";
 	}
 
-	private Twitter createTwitter() {
+	/**
+	 *
+	 * @return
+	 */
+	public static Twitter createTwitter() {
 		ConfigurationBuilder builder = new ConfigurationBuilder();
 		builder.setOAuthConsumerKey(TwitterOAuthConst.O_AUTH_CONSUMER_KEY);
 		builder.setOAuthConsumerSecret(TwitterOAuthConst.O_AUTH_CONSUMER_SECRET);
@@ -45,6 +49,13 @@ public class GreetingBot {
 		TwitterFactory twitterFactory = new TwitterFactory(builder.build());
 		Twitter twitter = twitterFactory.getInstance();
 		return twitter;
+	}
+
+	/**
+	 * @param twitter セットする twitter
+	 */
+	public void setTwitter(Twitter twitter) {
+		this.twitter = twitter;
 	}
 
 }
