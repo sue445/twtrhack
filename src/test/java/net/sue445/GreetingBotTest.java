@@ -21,12 +21,15 @@ import twitter4j.User;
 
 @RunWith(Enclosed.class)
 public class GreetingBotTest{
+	private static GreetingBot greetingBot = new GreetingBot();
+	private static boolean isUpdateStatusCalled = false;
+	private static User mockUser;
+	private static Status mockStatus;
+	private static ResponseList<Status> mockTimelineList;
+	private static Twitter mockTwitter;
+
 
 	public static class WhenNotFound{
-		private GreetingBot greetingBot = new GreetingBot();
-		private ResponseList<Status> mockTimelineList;
-		private Twitter mockTwitter;
-
 		@Before
 		public void setUp() throws Exception{
 			mockTimelineList = setUpMockEmptyTimelineList();
@@ -80,20 +83,12 @@ public class GreetingBotTest{
 	}
 
 	public static class WhenFound{
-		private GreetingBot greetingBot = new GreetingBot();
-		private boolean isUpdateStatusCalled = false;
-		private User mockUser;
-		private Status mockStatus;
-		private ResponseList<Status> mockTimelineList;
-		private Twitter mockTwitter;
-
 		@Before
 		public void setUp() throws Exception{
 			mockUser = setUpMockUser();
 			mockStatus = setUpMockStatus(mockUser);
 			mockTimelineList = setUpMockTimelineList(mockStatus);
 			mockTwitter = setUpMockTwitter(mockTimelineList);
-
 			greetingBot.setTwitter(mockTwitter);
 
 			replay(mockTwitter, mockTimelineList, mockStatus, mockUser);
