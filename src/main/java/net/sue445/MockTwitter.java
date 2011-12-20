@@ -17,6 +17,7 @@ import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.Place;
 import twitter4j.ProfileImage;
+import twitter4j.ProfileImage.ImageSize;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.RateLimitStatus;
@@ -34,13 +35,17 @@ import twitter4j.TwitterAPIConfiguration;
 import twitter4j.TwitterException;
 import twitter4j.User;
 import twitter4j.UserList;
-import twitter4j.ProfileImage.ImageSize;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.Authorization;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 
 public class MockTwitter implements Twitter {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void setOAuthConsumer(String consumerKey, String consumerSecret) {
